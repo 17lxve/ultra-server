@@ -40,6 +40,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
 # Switch to the non-privileged user to run the application.
 # USER appuser
 
@@ -48,6 +50,7 @@ COPY . .
 
 # Expose the port that the application listens on.
 EXPOSE 5000
+EXPOSE 5001
 
 # Run the application.
 CMD python -m flask run --host 0.0.0.0 --port 5000 --debug
